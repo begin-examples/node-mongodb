@@ -1,6 +1,6 @@
 const arc = require('@architect/functions')
 const mongodb = require('@architect/shared/mongodb');
-const ObjectID = require("bson-objectid")
+const ObjectId = require('mongodb').ObjectId
 
 exports.handler = async function create(req) {
   const { client, db } = await mongodb({dbName: 'todos'})
@@ -8,7 +8,7 @@ exports.handler = async function create(req) {
 
   let { key } = arc.http.helpers.bodyParser(req)
 
-  await collection.deleteOne({ _id: ObjectID(key) });
+  await collection.deleteOne({ _id: ObjectId(key) });
 
   client.close()
 
