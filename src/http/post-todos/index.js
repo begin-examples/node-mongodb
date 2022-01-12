@@ -1,9 +1,8 @@
 const arc = require('@architect/functions')
-const clientPromise = require('@architect/shared/mongodb');
+const mongodb = require('@architect/shared/mongodb')
 
 exports.handler = async function create(req) {
-  const client = await clientPromise
-  const db = client.db('todos')
+  const { client, db } = await mongodb({dbName: 'todos'})
   const collection = db.collection('todos')
 
   let todo = arc.http.helpers.bodyParser(req)
