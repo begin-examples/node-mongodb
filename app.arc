@@ -2,6 +2,7 @@
 node-mongodb
 
 @http
+get /
 post /todos
 get /todos
 post /todos/delete
