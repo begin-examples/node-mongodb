@@ -1,12 +1,15 @@
 const mongodb = require('@architect/shared/mongodb')
 
-exports.handler = async function read() {
+exports.handler = async function read(req, context) {
+  context.callbackWaitsForEmptyEventLoop = false
   const { client, db } = await mongodb({dbName: 'todos'})
   const collection = db.collection('todos')
 
+  console.log('ask for todos')
   let todos = await collection.find({}).toArray();
+  console.log('got todos')
 
-  client.close()
+  // await client.close()
 
   return {
     statusCode: 201,
