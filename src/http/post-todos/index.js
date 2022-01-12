@@ -1,7 +1,8 @@
 const arc = require('@architect/functions')
 const mongodb = require('@architect/shared/mongodb')
 
-exports.handler = async function create(req) {
+exports.handler = async function create(req, context) {
+  process.env.ARC_ENV === 'testing' ? context.callbackWaitsForEmptyEventLoop = true : context.callbackWaitsForEmptyEventLoop = false
   const { client, db } = await mongodb({dbName: 'todos'})
   const collection = db.collection('todos')
 
@@ -9,7 +10,9 @@ exports.handler = async function create(req) {
 
   await collection.insertOne({ ...todo });
 
-  client.close()
+  if (process.env.ARC_ENV === 'testing') {
+    await client.close()
+  }
 
   return {
     statusCode: 302,
