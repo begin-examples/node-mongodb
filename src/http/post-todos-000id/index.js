@@ -1,21 +1,20 @@
-const arc = require('@architect/functions')
-const clientPromise = require('@architect/shared/mongodb-client');
+const { http } = require('@architect/functions')
+const { clientConnect, clientClose, clientContext } = require('@architect/shared/mongodb-helper');
 const ObjectId = require('mongodb').ObjectId
 
-exports.handler = async function create(req, context) {
-  process.env.ARC_ENV === 'testing' ? context.callbackWaitsForEmptyEventLoop = true : context.callbackWaitsForEmptyEventLoop = false
-  const client = await clientPromise;
+exports.handler = http.async(clientContext, update)
+
+async function update(req) {
+  const client = await clientConnect;
   const db = client.db('todos')
   const collection = db.collection('todos')
 
-  let todo = arc.http.helpers.bodyParser(req)
+  let todo = http.helpers.bodyParser(req)
   todo.completed = !!todo.completed
 
   await collection.updateOne({ _id: ObjectId(todo.key) }, { $set: { text: todo.text, completed: todo.completed } });
 
-  if (process.env.ARC_ENV === 'testing') {
-    await client.close()
-  }
+  await clientClose()
 
   return {
     statusCode: 302,

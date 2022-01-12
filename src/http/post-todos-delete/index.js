@@ -1,20 +1,19 @@
-const arc = require('@architect/functions')
-const clientPromise = require('@architect/shared/mongodb-client');
+const { http } = require('@architect/functions')
+const { clientConnect, clientClose, clientContext } = require('@architect/shared/mongodb-helper');
 const ObjectId = require('mongodb').ObjectId
 
-exports.handler = async function create(req, context) {
-  process.env.ARC_ENV === 'testing' ? context.callbackWaitsForEmptyEventLoop = true : context.callbackWaitsForEmptyEventLoop = false
-  const client = await clientPromise;
+exports.handler = http.async(clientContext, destroy)
+
+async function destroy(req) {
+  const client = await clientConnect;
   const db = client.db('todos')
   const collection = db.collection('todos')
 
-  let { key } = arc.http.helpers.bodyParser(req)
+  let { key } = http.helpers.bodyParser(req)
 
   await collection.deleteOne({ _id: ObjectId(key) });
 
-  if (process.env.ARC_ENV === 'testing') {
-    await client.close()
-  }
+  await clientClose()
 
   return {
     statusCode: 302,

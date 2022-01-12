@@ -1,16 +1,16 @@
-const clientPromise = require('@architect/shared/mongodb-client');
+const { http } = require('@architect/functions')
+const { clientConnect, clientClose, clientContext } = require('@architect/shared/mongodb-helper');
 
-exports.handler = async function read(req, context) {
-  process.env.ARC_ENV === 'testing' ? context.callbackWaitsForEmptyEventLoop = true : context.callbackWaitsForEmptyEventLoop = false
-  const client = await clientPromise;
+exports.handler = http.async(clientContext, read)
+
+async function read() {
+  const client = await clientConnect;
   const db = client.db('todos')
   const collection = db.collection('todos')
 
   let todos = await collection.find({}).toArray();
 
-  if (process.env.ARC_ENV === 'testing') {
-    await client.close()
-  }
+  await clientClose()
 
   return {
     statusCode: 201,
