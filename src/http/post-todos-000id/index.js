@@ -1,5 +1,5 @@
 const { http } = require('@architect/functions')
-const { clientConnect, clientClose, clientContext } = require('@architect/shared/mongodb-helper');
+const { clientConnect, clientClose, clientContext } = require('@architect/shared/mongodb-client');
 const ObjectId = require('mongodb').ObjectId
 
 exports.handler = http.async(clientContext, update)
