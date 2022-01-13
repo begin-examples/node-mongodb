@@ -5,7 +5,7 @@ exports.handler = http.async(clientContext, create)
 
 async function create(req) {
   const client = await clientConnect;
-  const db = client.db('todos')
+  const db = client.db('todo-app')
   const collection = db.collection('todos')
 
   let todo = http.helpers.bodyParser(req)

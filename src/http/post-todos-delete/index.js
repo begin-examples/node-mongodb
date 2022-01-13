@@ -6,7 +6,7 @@ exports.handler = http.async(clientContext, destroy)
 
 async function destroy(req) {
   const client = await clientConnect;
-  const db = client.db('todos')
+  const db = client.db('todo-app')
   const collection = db.collection('todos')
 
   let { key } = http.helpers.bodyParser(req)

@@ -5,7 +5,7 @@ exports.handler = http.async(clientContext, read)
 
 async function read() {
   const client = await clientConnect;
-  const db = client.db('todos')
+  const db = client.db('todo-app')
   const collection = db.collection('todos')
 
   let todos = await collection.find({}).toArray();
