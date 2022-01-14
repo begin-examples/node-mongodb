@@ -1,8 +1,6 @@
 const { MongoClient } = require('mongodb')
 
-const uri = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_SERVER}/${process.env.MONGODB_CLUSTER}?maxPoolSize=20&w=majority`
-
-const client = new MongoClient(uri,
+const client = new MongoClient(process.env.MONGODB_URL,
   { useNewUrlParser: true,  useUnifiedTopology: true })
 
 async function clientClose() {
