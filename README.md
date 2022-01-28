@@ -8,22 +8,13 @@ A super simple Begin **c**reate **r**ead **u**pdate **d**elete app that exemplif
 
 ```sh
 @testing
-MONGODB_USER=Your db user name
-MONGODB_PASSWORD=Your db password
-MONGODB_SERVER=Your db server name
-MONGODB_CLUSTER=Your db cluster name
+MONGODB_URL=mongodb+srv://<username>:<password>@<hostname>.mongodb.net/<cluster>?retryWrites=true&w=majority
 
 @staging
-MONGODB_USER=Your db user name
-MONGODB_PASSWORD=Your db password
-MONGODB_SERVER=Your db server name
-MONGODB_CLUSTER=Your db cluster name
+MONGODB_URL=mongodb+srv://<username>:<password>@<hostname>.mongodb.net/<cluster>?retryWrites=true&w=majority
 
 @production
-MONGODB_USER=Your db user name
-MONGODB_PASSWORD=Your db password
-MONGODB_SERVER=Your db server name
-MONGODB_CLUSTER=Your db cluster name
+MONGODB_URL=mongodb+srv://<username>:<password>@<hostname>.mongodb.net/<cluster>?retryWrites=true&w=majority
 ```
 
 3. Create a database named 'todos'
